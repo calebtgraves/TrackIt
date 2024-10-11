@@ -28,8 +28,11 @@ model Users {
 model Streaks {
   id     String  @id @default(cuid())
   userId String? // id of the user
+  name   String // name of the streak
+  goal   String // goal of the streak
+
   type   String // time, count, quanity, check
-  streak Int     @default(0) // number of streaks
+  streak Int    @default(0) // number of streaks
 
   totalCount Int? // total count of count 
 
@@ -39,11 +42,12 @@ model Streaks {
 
   totalTime   Int? // stores all the time in seconds
   reportType  String? // the way you want to report the time HH:MM:SS or MM:SS or Ss or start and end time
-  totalInputs Int? // calculating average time per input
+  totalInputs Int? // calculating average time per input for count, quanity, time, check
 
-  isComplete Boolean @default(false) // if the streak is complete or not
+  lastChecked DateTime? // last time the streak was checked
 
-  created DateTime @default(now())
-  updated DateTime @updatedAt // if the streak is we will need to update the streak based on it being complete or not within the 24 hour time frame
-  Users   Users?   @relation(fields: [userId], references: [id])
+  isComplete Boolean  @default(false) // if the streak is complete or not
+  created    DateTime @default(now())
+  updated    DateTime @updatedAt // if the streak is we will need to update the streak based on it being complete or not within the 24 hour time frame
+  Users      Users?   @relation(fields: [userId], references: [id])
 }
