@@ -1,12 +1,19 @@
 'use server';
 import { NextResponse } from 'next/server';
-import prisma from '@/lib/db';
+import { PrismaNeon } from '@prisma/adapter-neon';
+import { Pool } from '@neondatabase/serverless';
+import { PrismaClient } from '@prisma/client';
 
 //----------------------------------------------------------------
 // this endpoint is used to get all the streaks for a user by id.
 //----------------------------------------------------------------
 export async function GET(req: Request) {
   try {
+    const neon = new Pool({
+      connectionString: process.env.POSTGRES_PRISMA_URL,
+    });
+    const adapter = new PrismaNeon(neon);
+    const prisma = new PrismaClient({ adapter });
     // get the url from the fetch request
     const url = new URL(req.url);
 
@@ -27,7 +34,7 @@ export async function GET(req: Request) {
       take: 5,
       skip: skip,
     });
-    return NextResponse.json(streaks);
+    return NextResponse.json(streaks, { status: 200 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: 'Error getting streaks' });
