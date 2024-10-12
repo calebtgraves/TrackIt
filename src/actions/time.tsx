@@ -7,10 +7,10 @@ export default async function create(formData: FormData) {
   if (!userId) {
     throw new Error('userId is required');
   }
-  const type = 'count';
+  const type = 'time';
   const name = formData.get('name') as string;
   const goal = formData.get('goal') as string;
-  const unit = formData.get('unit') as string;
+  const reportType = formData.get('reportType') as string;
 
   await prisma.streaks.create({
     data: {
@@ -18,11 +18,11 @@ export default async function create(formData: FormData) {
       goal: goal,
       type: type,
       userId: userId,
-      totalCount: 0,
-      unit: unit,
+      totalCount: null,
+      unit: null, // this is a string input
       totalQuantity: null,
-      totalTime: null,
-      reportType: null,
+      totalTime: 0, // In seconds
+      reportType: reportType, // option for user imputation eventually enum
       totalInputs: 0, //total number of inputs
     },
   });
@@ -56,16 +56,19 @@ export async function updateInfo(id: string, formData: FormData) {
 //  update the streak
 export async function update(id: string, formData: FormData) {
   try {
-    const name = formData.get('name') as string;
-    const goal = formData.get('goal') as string;
-    const totalCount = Number(formData.get('totalCount'));
+    if (!id) {
+      throw new Error('id is required');
+    }
+    // totalTime is in seconds must not be a date
+    const totalTime = Number(formData.get('totalQuantity'));
+
     const streak = Number(formData.get('streak'));
 
     const verify = await prisma.streaks.findUnique({
       where: { id },
       select: {
         streak: true,
-        lastChecked: true,
+        lastChecked: true, // this show last streak date
         totalInputs: true,
       },
     });
@@ -97,9 +100,7 @@ export async function update(id: string, formData: FormData) {
     await prisma.streaks.update({
       where: { id },
       data: {
-        name,
-        goal,
-        totalCount: totalCount,
+        totalTime: totalTime,
         streak: updatedStreak,
         lastChecked: currentDate,
         totalInputs: totalInputs, //increment total number of inputs for each update

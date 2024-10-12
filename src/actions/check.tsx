@@ -7,7 +7,7 @@ export default async function create(formData: FormData) {
   if (!userId) {
     throw new Error('userId is required');
   }
-  const type = formData.get('type') as string;
+  const type = 'check';
   const name = formData.get('name') as string;
   const goal = formData.get('goal') as string;
 
