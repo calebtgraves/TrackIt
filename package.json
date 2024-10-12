@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "next": "14.2.14",
+    "nextjs": "^0.0.3",
     "react": "^18",
     "react-dom": "^18"
   },
