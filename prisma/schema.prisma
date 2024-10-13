@@ -32,8 +32,8 @@ model Streaks {
   name   String // name of the streak
   goal   String // goal of the streak
 
-  type   String // time, count, quanity, check
-  streak Int    @default(0) // number of streaks
+  type        String // time, count, quanity, check
+  streakCount Int    @default(0) // number of streaks
 
   totalCount Int? // total count of count 
 
