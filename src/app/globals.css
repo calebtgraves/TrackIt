@@ -5,6 +5,8 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --title-font: 'Gasoek One', sans-serif;
+  --text-font: 'Poltawski_Nowy', sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
