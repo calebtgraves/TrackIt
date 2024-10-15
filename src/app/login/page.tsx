@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useState } from 'react';
 
 const LoginPage = () => {
@@ -11,27 +11,55 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <h2>Login</h2>
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <label htmlFor="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">Login</button>
-      </form>
+    <div className='flex min-h-screen flex-col'>
+      <div className='rounded-b-xl border-b-4 border-b-purple-950 bg-purple-900 py-10 text-center text-2xl font-bold text-white'>
+        TrackIt
+      </div>
+      <div className='flex flex-1 items-center justify-center bg-gradient-to-bl from-purple-600 to-purple-800'>
+        <form
+          onSubmit={handleSubmit}
+          className='w-full max-w-sm rounded bg-white p-8 shadow-md'
+        >
+          <div className='mb-4'>
+            <label htmlFor='email' className='mb-2 block text-purple-700'>
+              Email:
+            </label>
+            <input
+              type='email'
+              id='email'
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              className='w-full rounded border border-purple-300 px-3 py-2 focus:border-purple-500 focus:outline-none focus:ring'
+            />
+          </div>
+          <div className='mb-6'>
+            <label htmlFor='password' className='mb-2 block text-purple-700'>
+              Password:
+            </label>
+            <input
+              type='password'
+              id='password'
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className='w-full rounded border border-purple-300 px-3 py-2 focus:border-purple-500 focus:outline-none focus:ring'
+            />
+          </div>
+          <button
+            type='submit'
+            className='w-full rounded bg-purple-500 py-2 text-white transition duration-200 hover:bg-purple-600'
+          >
+            Login
+          </button>
+          <button
+            type='button'
+            className='mt-2 w-full rounded bg-purple-200 py-2 text-purple-700 transition duration-200 hover:bg-purple-300'
+          >
+            Create an Account
+          </button>
+        </form>
+      </div>
     </div>
   );
 };
