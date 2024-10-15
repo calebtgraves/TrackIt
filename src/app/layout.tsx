@@ -1,17 +1,17 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
 import './globals.css';
+import { Gasoek_One, Poltawski_Nowy } from 'next/font/google';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
+const title = Gasoek_One({
+  subsets: ['latin'],
+  weight: '400',
 });
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
+const text = Poltawski_Nowy({
+  subsets: ['latin'],
+  weight: '400',
 });
+
+const background = 'bg-gradient-to-bl from-purple-600 to-purple-800 ';
 
 export const metadata: Metadata = {
   title: 'TrackIt',
@@ -26,7 +26,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={` ${title.className} ${text.className} ${background} min-h-screen text-white`}
       >
         {children}
       </body>
