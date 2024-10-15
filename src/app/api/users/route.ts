@@ -11,8 +11,12 @@ export async function GET() {
   });
   const adapter = new PrismaNeon(neon);
   const prisma = new PrismaClient({ adapter });
+  const id = 'cm26riqku0000epp03ppu8372';
   // dont include the password in the response
   const users = await prisma.users.findMany({
+    where: {
+      id: id,
+    },
     select: {
       name: true,
       email: true,
@@ -22,15 +26,3 @@ export async function GET() {
   return NextResponse.json(users, { status: 200 });
 }
 //------------------------------------------------
-//------------------------------------------------
-//How to use this endpoint
-
-// useEffect(() => {
-//     const fetchData = async () => {
-//       const response = await fetch('/api/getData');
-//       const data = await response.json();
-//       console.log(data);
-//     };
-
-//     fetchData();
-//   }, []);

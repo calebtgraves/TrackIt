@@ -1,8 +1,15 @@
 'use server';
+
+import Main from './components/main';
+import Nav from './components/nav';
+
 export default async function Home() {
   return (
     <div>
-      <p>Hello World</p>
+      {/* Navbar/header */}
+      <Nav />
+      {/* page Content */}
+      <Main />
     </div>
   );
 }
