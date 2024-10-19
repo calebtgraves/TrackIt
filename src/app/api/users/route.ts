@@ -11,7 +11,7 @@ export async function GET() {
   });
   const adapter = new PrismaNeon(neon);
   const prisma = new PrismaClient({ adapter });
-  const id = 'cm26riqku0000epp03ppu8372';
+  const id = '1';
   // dont include the password in the response
   const users = await prisma.users.findMany({
     where: {
