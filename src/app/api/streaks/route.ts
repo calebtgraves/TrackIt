@@ -4,9 +4,6 @@ import { PrismaNeon } from '@prisma/adapter-neon';
 import { Pool } from '@neondatabase/serverless';
 import { PrismaClient } from '@prisma/client';
 
-//----------------------------------------------------------------
-// this endpoint is used to get all the streaks for a user by id.
-//----------------------------------------------------------------
 export async function GET(req: Request) {
   try {
     const neon = new Pool({
@@ -14,29 +11,33 @@ export async function GET(req: Request) {
     });
     const adapter = new PrismaNeon(neon);
     const prisma = new PrismaClient({ adapter });
+
     // get the url from the fetch request
     const url = new URL(req.url);
 
     // get the skip parameter to increment the page number
     const skip = parseInt(url.searchParams.get('skip') || '0', 10);
 
-    const userId = '1';
+    const userId = '1'; // Assuming userId is static for now
     if (!userId) {
       return NextResponse.json({ error: 'User not found' });
     }
+
+    // Correct the where clause to filter by userId
     const streaks = await prisma.streaks.findMany({
       where: {
-        id: userId,
+        userId: userId, // Filter by userId, not streak id
       },
       orderBy: {
         created: 'desc',
       },
-      take: 5,
-      skip: skip,
+      take: 5, // Pagination limit
+      skip: skip, // Skip value for pagination
     });
+
     return NextResponse.json(streaks, { status: 200 });
   } catch (error) {
-    console.error(error);
+    console.error('Error getting streaks:', error);
     return NextResponse.json({ error: 'Error getting streaks' });
   }
 }

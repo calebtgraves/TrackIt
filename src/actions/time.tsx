@@ -67,7 +67,6 @@ export async function update(id: string, formData: FormData) {
     const verify = await prisma.streaks.findUnique({
       where: { id },
       select: {
-        streak: true,
         lastChecked: true, // this show last streak date
         totalInputs: true,
       },
