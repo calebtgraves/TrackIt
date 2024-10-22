@@ -4,19 +4,13 @@ import { PrismaNeon } from '@prisma/adapter-neon';
 import { Pool } from '@neondatabase/serverless';
 import { PrismaClient } from '@prisma/client';
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
     const neon = new Pool({
       connectionString: process.env.POSTGRES_PRISMA_URL,
     });
     const adapter = new PrismaNeon(neon);
     const prisma = new PrismaClient({ adapter });
-
-    // get the url from the fetch request
-    const url = new URL(req.url);
-
-    // get the skip parameter to increment the page number
-    const skip = parseInt(url.searchParams.get('skip') || '0', 10);
 
     const userId = '1'; // Assuming userId is static for now
     if (!userId) {
@@ -31,8 +25,6 @@ export async function GET(req: Request) {
       orderBy: {
         created: 'desc',
       },
-      take: 5, // Pagination limit
-      skip: skip, // Skip value for pagination
     });
 
     return NextResponse.json(streaks, { status: 200 });

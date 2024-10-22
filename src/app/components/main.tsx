@@ -29,7 +29,7 @@ export default function Main() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('/api/streaks');
+        const response = await fetch(`/api/streaks`);
         const data = await response.json();
         console.log(data);
         setStreaks(data);
@@ -62,6 +62,7 @@ export default function Main() {
       {/* Banner */}
       <Banner />
       <h1 className='mb-3 text-center'>Streak section</h1>
+
       {streaks.map((streak: Streak) => (
         <div
           key={streak.id}

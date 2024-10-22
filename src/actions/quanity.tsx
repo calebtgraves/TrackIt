@@ -65,7 +65,7 @@ export async function update(id: string, formData: FormData) {
     const verify = await prisma.streaks.findUnique({
       where: { id },
       select: {
-        streak: true,
+        streakCount: true,
         lastChecked: true,
         totalInputs: true,
       },
@@ -88,7 +88,7 @@ export async function update(id: string, formData: FormData) {
       : true;
 
     // Allow increment if it's a new day or if the streak is being maintained
-    if (!isNewDay && streak < verify.streak) {
+    if (!isNewDay && streak < verify.streakCount) {
       throw new Error('Streak cannot be decreased');
     }
 
@@ -99,7 +99,7 @@ export async function update(id: string, formData: FormData) {
       where: { id },
       data: {
         totalQuantity: totalQuantity,
-        streak: updatedStreak,
+        streakCount: updatedStreak,
         lastChecked: currentDate,
         totalInputs: totalInputs, //increment total number of inputs for each update
       },
