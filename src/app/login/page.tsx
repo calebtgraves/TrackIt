@@ -12,7 +12,7 @@ const LoginPage = () => {
 
   return (
     <div className='flex min-h-screen flex-col'>
-      <div className='font-title rounded-b-xl border-b-4 border-b-purple-950 bg-purple-900 py-10 text-center text-5xl text-white'>
+      <div className='rounded-b-xl border-b-4 border-b-purple-950 bg-purple-900 py-10 text-center font-title text-5xl text-white'>
         TrackIt
       </div>
       <div className='flex flex-1 items-center justify-center bg-gradient-to-bl from-purple-600 to-purple-800'>
