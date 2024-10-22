@@ -6,7 +6,7 @@ import Link from 'next/link';
 export default function Nav() {
   return (
     <nav>
-      <div className='relative flex w-full flex-row rounded-b-xl border-b-4 border-b-purple-950 bg-purple-900 py-10'>
+      <div className='relative flex w-full flex-row rounded-b-xl border-b-4 border-b-purple-950 bg-purple-900 py-5'>
         <div className='flex w-full flex-row items-center justify-center'>
           <h1 className='text-center font-title text-3xl text-white md:text-4xl lg:text-5xl'>
             TrackIt

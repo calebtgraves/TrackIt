@@ -5,7 +5,7 @@ import Nav from './components/nav';
 
 export default async function Home() {
   return (
-    <div>
+    <div className='flex h-full flex-col'>
       {/* Navbar/header */}
       <Nav />
       {/* page Content */}
