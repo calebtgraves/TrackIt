@@ -1,21 +1,21 @@
 'use client';
 import CreateBanner from '@/app/components/dashboard/CreateBanner';
 
-export default function CreateCountPage() {
+export default function CreateQuantityPage() {
   const userId = '1';
   return (
     <div className='flex h-full flex-col'>
       <CreateBanner
-        src={'/count.svg'}
-        color={'bg-[#3B82F6]'}
-        backgroundColor={'border-b-blue-900 border-b-4'}
-        text={'New Count It Streak'}
+        src={'/quantity.svg'}
+        color={'bg-[#EF4444]'}
+        backgroundColor={'border-b-red-900 border-b-4'}
+        text={'New Weigh It Streak'}
       />
       <form className='mx-auto size-full'>
         <div className='grid h-full grid-cols-2 grid-rows-5 gap-10 py-5'>
           {/* Holds the userId for the streak to record it*/}
           <input type='hidden' name='userId' value={userId} />
-          <input type='hidden' name='type' value={'count'} />
+          <input type='hidden' name='type' value={'quantity'} />
           {/* Holds the name of the streak */}
           <div className='col-span-2 row-span-1 m-auto flex w-11/12 flex-col'>
             <label htmlFor='name' className='text-3xl'>
@@ -30,12 +30,12 @@ export default function CreateCountPage() {
 
           <div className='col-span-2 row-span-1 m-auto flex w-11/12 flex-col'>
             <label htmlFor='unit' className='text-3xl'>
-              Counted Item Name
+              Unit of Measurement
             </label>
             <input
               type='text'
               name='unit'
-              className='rounded-md p-5 text-5xl text-black shadow-lg'
+              className='rounded-md p-5 text-3xl text-black shadow-lg'
             />
           </div>
 
@@ -49,7 +49,7 @@ export default function CreateCountPage() {
               minLength={1}
               maxLength={64}
               defaultValue={''}
-              className='my-auto rounded-md text-3xl text-black shadow-lg'
+              className='my-auto rounded-md text-5xl text-black shadow-lg'
               style={{ resize: 'none' }}
             />
           </div>
