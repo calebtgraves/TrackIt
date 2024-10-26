@@ -5,7 +5,6 @@ import { Pool } from '@neondatabase/serverless';
 import { PrismaClient } from '@prisma/client';
 
 export async function GET() {
-
   try {
     const neon = new Pool({
       connectionString: process.env.POSTGRES_PRISMA_URL,
