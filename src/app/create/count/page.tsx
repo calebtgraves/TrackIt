@@ -11,36 +11,36 @@ export default function CreateCountPage() {
         backgroundColor={'border-b-blue-900 border-b-4'}
         text={'New Count It Streak'}
       />
-      <form className='mx-auto size-full'>
+      <form className='mx-auto size-full text-black'>
         <div className='grid h-full grid-cols-2 grid-rows-5 gap-10 py-5'>
           {/* Holds the userId for the streak to record it*/}
           <input type='hidden' name='userId' value={userId} />
           <input type='hidden' name='type' value={'count'} />
           {/* Holds the name of the streak */}
           <div className='col-span-2 row-span-1 m-auto flex w-11/12 flex-col'>
-            <label htmlFor='name' className='text-3xl'>
+            <label htmlFor='name' className='text-3xl text-white'>
               Name your Streak
             </label>
             <input
               type='text'
               name='name'
-              className='rounded-md p-5 text-5xl text-black shadow-lg'
+              className='rounded-md py-5 text-3xl text-black shadow-lg'
             />
           </div>
 
           <div className='col-span-2 row-span-1 m-auto flex w-11/12 flex-col'>
-            <label htmlFor='unit' className='text-3xl'>
+            <label htmlFor='unit' className='text-3xl text-white'>
               Counted Item Name
             </label>
             <input
               type='text'
               name='unit'
-              className='rounded-md p-5 text-5xl text-black shadow-lg'
+              className='rounded-md py-5 text-3xl text-black shadow-lg'
             />
           </div>
 
           <div className='col-span-2 row-span-2 m-auto flex w-11/12 flex-col'>
-            <label htmlFor='goal' className='text-3xl'>
+            <label htmlFor='goal' className='text-3xl text-white'>
               Record your Goal
             </label>
             <textarea

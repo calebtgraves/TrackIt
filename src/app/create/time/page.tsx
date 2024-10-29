@@ -24,7 +24,7 @@ export default function CreateTimePage() {
             <input
               type='text'
               name='name'
-              className='rounded-md p-5 text-5xl text-black shadow-lg'
+              className='rounded-md p-5 text-3xl text-black shadow-lg'
             />
           </div>
 
@@ -38,7 +38,7 @@ export default function CreateTimePage() {
               minLength={1}
               maxLength={64}
               defaultValue={''}
-              className='my-auto rounded-md text-xl text-black shadow-lg'
+              className='my-auto rounded-md text-3xl text-black shadow-lg'
               style={{ resize: 'none' }}
             />
           </div>

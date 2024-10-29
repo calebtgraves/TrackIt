@@ -24,7 +24,7 @@ export default function CreateQuantityPage() {
             <input
               type='text'
               name='name'
-              className='rounded-md p-5 text-5xl text-black shadow-lg'
+              className='rounded-md p-5 text-3xl text-black shadow-lg'
             />
           </div>
 
