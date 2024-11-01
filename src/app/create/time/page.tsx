@@ -1,8 +1,17 @@
 'use client';
 import CreateBanner from '@/app/components/dashboard/CreateBanner';
+import createTime from '@/actions/time';
+import { useRouter } from 'next/navigation';
 
 export default function CreateTimePage() {
   const userId = '1';
+  const router = useRouter();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    await createTime(formData);
+    router.push('/create/planned');
+  };
   return (
     <div className='flex h-full flex-col'>
       <CreateBanner
@@ -11,11 +20,11 @@ export default function CreateTimePage() {
         backgroundColor={'border-b-purple-900 border-b-4'}
         text={'New Time It Streak'}
       />
-      <form className='mx-auto size-full'>
+      <form onSubmit={handleSubmit} className='mx-auto size-full'>
         <div className='grid h-full grid-cols-2 grid-rows-5 gap-10 py-5'>
           {/* Holds the userId for the streak to record it*/}
           <input type='hidden' name='userId' value={userId} />
-          <input type='hidden' name='type' value={'quantity'} />
+          <input type='hidden' name='type' value={'time'} />
           {/* Holds the name of the streak */}
           <div className='col-span-2 row-span-1 m-auto flex w-11/12 flex-col'>
             <label htmlFor='name' className='text-3xl'>
@@ -44,11 +53,11 @@ export default function CreateTimePage() {
           </div>
 
           <div className='col-span-2 row-span-1 m-auto flex w-11/12 flex-col'>
-            <label htmlFor='unit' className='text-3xl'>
+            <label htmlFor='reportType' className='text-3xl'>
               Report Time In
             </label>
             <select
-              name='unit'
+              name='reportType'
               defaultValue={'default'}
               className='my-auto rounded-md p-5 text-3xl text-black shadow-lg'
             >

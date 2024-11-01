@@ -1,8 +1,17 @@
 'use client';
+import createQuantity from '@/actions/quanity';
 import CreateBanner from '@/app/components/dashboard/CreateBanner';
+import { useRouter } from 'next/navigation';
 
 export default function CreateQuantityPage() {
   const userId = '1';
+  const router = useRouter();
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    await createQuantity(formData);
+    router.push('/create/planned');
+  };
   return (
     <div className='flex h-full flex-col'>
       <CreateBanner
@@ -11,7 +20,7 @@ export default function CreateQuantityPage() {
         backgroundColor={'border-b-red-900 border-b-4'}
         text={'New Weigh It Streak'}
       />
-      <form className='mx-auto size-full'>
+      <form onSubmit={handleSubmit} className='mx-auto size-full'>
         <div className='grid h-full grid-cols-2 grid-rows-5 gap-10 py-5'>
           {/* Holds the userId for the streak to record it*/}
           <input type='hidden' name='userId' value={userId} />
@@ -49,7 +58,7 @@ export default function CreateQuantityPage() {
               minLength={1}
               maxLength={64}
               defaultValue={''}
-              className='my-auto rounded-md text-5xl text-black shadow-lg'
+              className='my-auto rounded-md text-3xl text-black shadow-lg'
               style={{ resize: 'none' }}
             />
           </div>

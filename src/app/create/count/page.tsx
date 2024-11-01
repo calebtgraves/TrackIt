@@ -1,8 +1,17 @@
 'use client';
+import createCount from '@/actions/count';
 import CreateBanner from '@/app/components/dashboard/CreateBanner';
+import { useRouter } from 'next/navigation';
 
 export default function CreateCountPage() {
+  const router = useRouter();
   const userId = '1';
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    await createCount(formData);
+    router.push('/create/planned');
+  };
   return (
     <div className='flex h-full flex-col'>
       <CreateBanner
@@ -11,7 +20,11 @@ export default function CreateCountPage() {
         backgroundColor={'border-b-blue-900 border-b-4'}
         text={'New Count It Streak'}
       />
-      <form className='mx-auto size-full text-black'>
+      <form
+        action={createCount}
+        onSubmit={handleSubmit}
+        className='mx-auto size-full text-black'
+      >
         <div className='grid h-full grid-cols-2 grid-rows-5 gap-10 py-5'>
           {/* Holds the userId for the streak to record it*/}
           <input type='hidden' name='userId' value={userId} />

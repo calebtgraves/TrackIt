@@ -117,7 +117,7 @@ export default function Main() {
                     <UpdateTime
                       streakId={streak.id}
                       totalTime={streak.totalTime}
-                      reportType={streak.reportType}
+                      reportType={streak.unit}
                       totalInputs={streak.totalInputs}
                       lastChecked={streak.lastChecked}
                       formRef={formRef} // Pass the form ref down to UpdateTime
