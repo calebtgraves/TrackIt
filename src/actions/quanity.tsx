@@ -2,8 +2,8 @@
 import prisma from '@/lib/db';
 import { revalidatePath } from 'next/cache';
 
-export default async function create(formData: FormData) {
-  const userId = '1';
+export default async function createQuantity(formData: FormData) {
+  const userId = formData.get('userId') as string;
   if (!userId) {
     throw new Error('userId is required');
   }

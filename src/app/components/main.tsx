@@ -5,6 +5,7 @@ import Banner from './banner';
 import { Streak } from '@/lib/types';
 import Image from 'next/image';
 import UpdateTime from './main/updateTimeForm';
+import Link from 'next/link';
 
 export default function Main() {
   const [page, setPage] = useState<boolean>(true);
@@ -58,17 +59,15 @@ export default function Main() {
   }
 
   return page ? (
-    <div className='mx-auto w-full md:w-3/4 lg:w-1/2'>
+    <div className='mx-auto mt-[10%] min-h-full w-full md:w-3/4 lg:w-1/2'>
       {/* Banner */}
       <Banner />
-      <h1 className='mb-3 text-center'>Streak section</h1>
-
       {streaks.map((streak: Streak) => (
         <div
           key={streak.id}
           className='mb-5 flex w-full flex-col items-center justify-center px-[5%]'
         >
-          <div className='mx-auto w-11/12 flex-col items-center justify-center rounded-xl bg-white shadow-lg'>
+          <div className='mx-auto w-11/12 flex-col items-center justify-center rounded-xl bg-white'>
             {/*This is the image that shows the streak type*/}
             <div
               className={`mx-auto flex items-center justify-center ${expandedStreakId === streak.id ? `rounded-t-lg ${getColorByType(streak.type)}` : ''} `}
@@ -153,12 +152,108 @@ export default function Main() {
           </div>
         </div>
       ))}
-      <button onClick={handler}>+</button>
+      <button
+        className='absolute bottom-4 right-4 rounded-full bg-green-500'
+        onClick={handler}
+      >
+        <Image
+          src={'/plus.svg'}
+          alt={'plus'}
+          width={50}
+          height={50}
+          className='mx-auto'
+        />
+      </button>
     </div>
   ) : (
-    <div className='w-full'>
-      <h1 className='text-center'>The unmapped app appears here</h1>
-      <button onClick={handler}>Unmap</button>
+    <div className='mx-auto mt-5 size-full w-11/12 max-w-screen-md flex-col items-center justify-center rounded bg-white px-2 py-8 shadow-md'>
+      <h1 className='text-center font-title text-4xl text-black'>Select One</h1>
+      <div className='mx-auto my-5 grid min-h-full w-11/12 grid-rows-4 gap-5'>
+        <div className='mx-auto w-11/12 cursor-pointer rounded-xl bg-[#22C55E]'>
+          <Link href={'/create/check'} className='w-full'>
+            <div className='mx-auto flex w-11/12 flex-row items-center justify-between rounded-xl py-4'>
+              <div className='w-1/6'>
+                <Image
+                  src={'/check.svg'}
+                  alt={'check'}
+                  width={50}
+                  height={50}
+                />
+              </div>
+              <div className='w-5/6'>
+                <h1 className='text-center font-title text-4xl text-black'>
+                  Check It
+                </h1>
+              </div>
+            </div>
+          </Link>
+        </div>
+        <div className='mx-auto flex w-11/12 cursor-pointer flex-row items-center justify-between rounded-xl bg-[#3B82F6]'>
+          <Link href={'/create/count'} className='w-full'>
+            <div className='mx-auto flex w-11/12 flex-row items-center justify-between rounded-xl py-4'>
+              <div className='w-1/6'>
+                <Image
+                  src={'/count.svg'}
+                  alt={'check'}
+                  width={50}
+                  height={50}
+                />
+              </div>
+              <div className='w-5/6'>
+                <h1 className='text-center font-title text-4xl text-black'>
+                  Count It
+                </h1>
+              </div>
+            </div>
+          </Link>
+        </div>
+        <div className='mx-auto flex w-11/12 cursor-pointer flex-row items-center justify-between rounded-xl bg-[#C084FC]'>
+          <Link href={'/create/time'} className='w-full'>
+            <div className='mx-auto flex w-11/12 flex-row items-center justify-between rounded-xl py-4'>
+              <div className='w-1/6'>
+                <Image src={'/time.svg'} alt={'time'} width={50} height={50} />
+              </div>
+              <div className='w-5/6'>
+                <h1 className='text-center font-title text-4xl text-black'>
+                  Time It
+                </h1>
+              </div>
+            </div>
+          </Link>
+        </div>
+        <div className='mx-auto flex w-11/12 cursor-pointer flex-row items-center justify-between rounded-xl bg-[#EF4444]'>
+          <Link href={'/create/quantity'} className='w-full'>
+            <div className='mx-auto flex w-11/12 flex-row items-center justify-between rounded-xl py-4'>
+              <div className='w-1/6'>
+                <Image
+                  src={'/quantity.svg'}
+                  alt={'check'}
+                  width={50}
+                  height={50}
+                />
+              </div>
+              <div className='w-5/6'>
+                <h1 className='text-center font-title text-4xl text-black'>
+                  Weigh It
+                </h1>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
+
+      <button
+        className='absolute bottom-4 right-4 rounded-full bg-red-500'
+        onClick={handler}
+      >
+        <Image
+          src={'/x.svg'}
+          alt={'plus'}
+          width={50}
+          height={50}
+          className='mx-auto'
+        />
+      </button>
     </div>
   );
 }
