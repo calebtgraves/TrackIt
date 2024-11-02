@@ -2,10 +2,12 @@
 import CreateBanner from '@/app/components/dashboard/CreateBanner';
 import createTime from '@/actions/time';
 import { useRouter } from 'next/navigation';
+import React, { useState } from 'react';
 
 export default function CreateTimePage() {
   const userId = '1';
   const router = useRouter();
+  const [reportType, setReportType] = useState('');
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -58,8 +60,10 @@ export default function CreateTimePage() {
             </label>
             <select
               name='reportType'
-              defaultValue={'default'}
+              id='reportType'
+              defaultValue={reportType}
               className='my-auto rounded-md p-5 text-3xl text-black shadow-lg'
+              onChange={(e) => setReportType(e.target.value)}
             >
               <option value='default'>Select Unit</option>
               <option value='seconds'>Seconds - S</option>
