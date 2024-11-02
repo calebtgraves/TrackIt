@@ -31,6 +31,7 @@ export default function Main() {
     const fetchData = async () => {
       try {
         const response = await fetch(`/api/streaks`);
+        const response = await fetch(`/api/streaks`);
         const data = await response.json();
         console.log(data);
         setStreaks(data);
