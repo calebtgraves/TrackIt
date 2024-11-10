@@ -4,8 +4,12 @@ import { PrismaNeon } from '@prisma/adapter-neon';
 import { Pool } from '@neondatabase/serverless';
 import { PrismaClient } from '@prisma/client';
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
+    const { searchParams } = new URL(request.url);
+    const skip = parseInt(searchParams.get('skip') || '0');
+    const take = parseInt(searchParams.get('take') || '5'); // Fetch 5 by default
+
     const neon = new Pool({
       connectionString: process.env.POSTGRES_PRISMA_URL,
     });
@@ -17,14 +21,11 @@ export async function GET() {
       return NextResponse.json({ error: 'User not found' });
     }
 
-    // Correct the where clause to filter by userId
     const streaks = await prisma.streaks.findMany({
-      where: {
-        userId: userId, // Filter by userId, not streak id
-      },
-      orderBy: {
-        created: 'desc',
-      },
+      where: { userId: userId },
+      orderBy: { created: 'desc' },
+      skip,
+      take,
     });
 
     return NextResponse.json(streaks, { status: 200 });
@@ -33,28 +34,3 @@ export async function GET() {
     return NextResponse.json({ error: 'Error getting streaks' });
   }
 }
-//----------------------------------------------------------------
-//----------------------------------------------------------------
-// Fetch streaks initially and when skip changes
-// useEffect(() => {
-//   const fetchStreaks = async () => {
-//     setIsLoading(true);
-//     try {
-//       const response = await fetch(`/api/streaks?skip=${skip}`);
-//       const newStreaks = await response.json();
-// Append new streaks to the existing list
-//       setStreaks((prev) => [...prev, ...newStreaks]);
-//     } catch (error) {
-//       console.error('Error fetching streaks:', error);
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   fetchStreaks();
-// }, [skip]);
-
-// Function to load more streaks
-// const handleLoadMore = () => {
-//   setSkip((prevSkip) => prevSkip + 5);
-// };

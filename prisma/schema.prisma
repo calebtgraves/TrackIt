@@ -43,7 +43,7 @@ model Streaks {
 
   totalTime   Int? // stores all the time in seconds
   reportType  String? // the way you want to report the time HH:MM:SS or MM:SS or Ss or start and end time
-  totalInputs Int? // calculating average time per input for count, quanity, time, check
+  totalInputs Int? // calculating average time per input for quanity, time
 
   lastChecked DateTime? // last time the streak was checked
 

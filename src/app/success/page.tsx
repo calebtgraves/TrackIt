@@ -1,13 +1,10 @@
 'use client';
 import Image from 'next/image';
 import { useEffect } from 'react';
-//we need this for the component to get streak data then a redirect
-// type Props = {
-//   count: number;
-// };
-
+import { useSearchParams } from 'next/navigation';
 export default function SuccessPage() {
-  const count = 0;
+  const searchParams = useSearchParams();
+  const count = searchParams.get('count');
   // redirect to dashboard after 5 seconds
   useEffect(() => {
     const timer = setTimeout(() => {

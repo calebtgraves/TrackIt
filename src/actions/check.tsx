@@ -54,60 +54,53 @@ export async function updateInfo(id: string, formData: FormData) {
 }
 
 //  update the streak
-export async function update(id: string, formData: FormData) {
+export async function UpdateNewCheck(formData: FormData) {
   try {
-    const name = formData.get('name') as string;
-    const goal = formData.get('goal') as string;
-    const streak = Number(formData.get('streak'));
+    console.log('Form submitted', formData);
+    const currentTime = new Date();
 
-    const verify = await prisma.streaks.findUnique({
-      where: { id },
+    // Fetch the current streak details
+    const streak = await prisma.streaks.findUnique({
+      where: { id: formData.get('id') as string },
       select: {
-        streakCount: true,
         lastChecked: true,
-        totalInputs: true,
+        streakCount: true,
       },
     });
-
-    if (!verify) {
+    if (!streak) {
       throw new Error('Streak not found');
     }
-    const totalInputs = Number(verify?.totalInputs) + 1;
 
-    // Get the current date and the date from lastChecked (if it exists)
-    const currentDate = new Date();
-    const lastCheckedDate = verify.lastChecked
-      ? new Date(verify.lastChecked)
+    const lastCheckedTime = streak.lastChecked
+      ? new Date(streak.lastChecked)
       : null;
+    const timeDiffHours = lastCheckedTime
+      ? (currentTime.getTime() - lastCheckedTime.getTime()) / (1000 * 60 * 60)
+      : 0;
 
-    // Check if the lastChecked date is different from the current date
-    const isNewDay = lastCheckedDate
-      ? currentDate.toDateString() !== lastCheckedDate.toDateString()
-      : true;
+    let updatedStreakCount = streak.streakCount;
 
-    // Allow increment if it's a new day or if the streak is being maintained
-    if (!isNewDay && streak < verify.streakCount) {
-      throw new Error('Streak cannot be decreased');
+    if (timeDiffHours >= 24) {
+      updatedStreakCount = streak.streakCount + 1;
+
+      const result = await prisma.streaks.update({
+        where: { id: formData.get('id') as string },
+        data: {
+          streakCount: updatedStreakCount,
+          lastChecked: currentTime,
+        },
+      });
+      console.log('Streak updated successfully:', result);
+      revalidatePath('/');
+
+      return { streakCount: updatedStreakCount };
+    } else {
+      console.log("It's too early to update this streak.");
+      return null;
     }
-
-    // Update the streak and the lastChecked date
-    const updatedStreak = isNewDay ? streak + 1 : streak;
-
-    await prisma.streaks.update({
-      where: { id },
-      data: {
-        name,
-        goal,
-        streakCount: updatedStreak,
-        lastChecked: currentDate,
-        totalInputs: totalInputs, //increment total number of inputs for each update
-      },
-    });
-
-    revalidatePath('/'); // Adjust the path if necessary
   } catch (error) {
-    console.error(error);
-    return error;
+    console.error('Error updating streak:', error);
+    throw error;
   }
 }
 
