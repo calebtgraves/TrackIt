@@ -13,6 +13,15 @@ export default function Main() {
   const formRef = useRef<HTMLFormElement | null>(null);
   const [expandedStreakId, setExpandedStreakId] = useState<string | null>(null);
 
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [filters, setFilters] = useState<string[]>([]);
+
+  const filteredStreaks = streaks.filter(
+    (streak) =>
+      streak.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+      (filters.length === 0 || filters.includes(streak.type)),
+  );
+
   const handleFormSubmit = () => {
     if (formRef.current) {
       formRef.current.submit(); // Programmatically submit the form
@@ -58,11 +67,104 @@ export default function Main() {
     }
   }
 
+  function toggleFilter(filter: string) {
+    if (filters.includes(filter)) {
+      setFilters((prev) => prev.filter((f) => f !== filter));
+    } else {
+      setFilters((prev) => [...prev, filter]);
+    }
+  }
+
   return page ? (
-    <div className='mx-auto mt-[10%] min-h-full w-full md:w-3/4 lg:w-1/2'>
+    <div className='mx-auto min-h-full w-full md:w-3/4 lg:w-1/2'>
       {/* Banner */}
       <Banner />
-      {streaks.map((streak: Streak) => (
+      <div className='mx-auto w-11/12'>
+        <input
+          type='text'
+          placeholder='Search for a streak'
+          className='w-full rounded-lg border border-gray-300 p-2 text-black'
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+        />
+        <div
+          id='filters'
+          className='mb-10 mt-5 flex flex-row items-center justify-around gap-4'
+        >
+          <button
+            className={`rounded-lg p-2 ${filters.includes('check') ? 'bg-[#22C55E]' : 'bg-gray-300'}`}
+            onClick={() => {
+              toggleFilter('check');
+            }}
+          >
+            <Image
+              src={'/check.svg'}
+              alt={'check'}
+              width={25}
+              height={25}
+              className='mx-auto'
+            />
+          </button>
+          <button
+            className={`rounded-lg p-2 ${filters.includes('count') ? 'bg-[#3B82F6]' : 'bg-gray-300'}`}
+            onClick={() => {
+              toggleFilter('count');
+            }}
+          >
+            <Image
+              src={'/count.svg'}
+              alt={'count'}
+              width={25}
+              height={25}
+              className='mx-auto'
+            />
+          </button>
+          <button
+            className={`rounded-lg p-2 ${filters.includes('time') ? 'bg-[#C084FC]' : 'bg-gray-300'}`}
+            onClick={() => {
+              toggleFilter('time');
+            }}
+          >
+            <Image
+              src={'/time.svg'}
+              alt={'time'}
+              width={25}
+              height={25}
+              className='mx-auto'
+            />
+          </button>
+          <button
+            className={`rounded-lg p-2 ${filters.includes('quantity') ? 'bg-[#EF4444]' : 'bg-gray-300'}`}
+            onClick={() => {
+              toggleFilter('quantity');
+            }}
+          >
+            <Image
+              src={'/quantity.svg'}
+              alt={'quantity'}
+              width={25}
+              height={25}
+              className='mx-auto'
+            />
+          </button>
+          <button
+            className={`rounded-lg p-2 ${filters.length > 0 || searchTerm.length > 0 ? 'bg-[#FBBF24]' : 'bg-gray-300'}`}
+            onClick={() => {
+              setFilters([]);
+              setSearchTerm('');
+            }}
+          >
+            <Image
+              src={'/x.svg'}
+              alt={'clear filters'}
+              width={25}
+              height={25}
+              className='mx-auto'
+            />
+          </button>
+        </div>
+      </div>
+      {filteredStreaks.map((streak: Streak) => (
         <div
           key={streak.id}
           className='mb-5 flex w-full flex-col items-center justify-center px-[5%]'
