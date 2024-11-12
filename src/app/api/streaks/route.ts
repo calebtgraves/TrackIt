@@ -4,12 +4,8 @@ import { PrismaNeon } from '@prisma/adapter-neon';
 import { Pool } from '@neondatabase/serverless';
 import { PrismaClient } from '@prisma/client';
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
-    const { searchParams } = new URL(request.url);
-    const skip = parseInt(searchParams.get('skip') || '0');
-    const take = parseInt(searchParams.get('take') || '5'); // Fetch 5 by default
-
     const neon = new Pool({
       connectionString: process.env.POSTGRES_PRISMA_URL,
     });
@@ -24,8 +20,6 @@ export async function GET(request: Request) {
     const streaks = await prisma.streaks.findMany({
       where: { userId: userId },
       orderBy: { created: 'desc' },
-      skip,
-      take,
     });
 
     return NextResponse.json(streaks, { status: 200 });

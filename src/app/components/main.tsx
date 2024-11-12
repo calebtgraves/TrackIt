@@ -15,8 +15,6 @@ export default function Main() {
   const [streaks, setStreaks] = useState<Streak[]>([]);
   const formRef = useRef<HTMLFormElement | null>(null);
   const [expandedStreakId, setExpandedStreakId] = useState<string | null>(null);
-  const [take, setTake] = useState(5);
-  const [skip, setSkip] = useState(0);
 
   const handleFormSubmit = () => {
     formRef.current?.dispatchEvent(
@@ -35,7 +33,7 @@ export default function Main() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/streaks?take=${take}&skip=${skip}`);
+        const response = await fetch(`/api/streaks`);
         const data = await response.json();
         console.log(data);
         setStreaks(data);
@@ -44,18 +42,13 @@ export default function Main() {
       }
     };
     fetchData();
-  }, [page, take, skip]);
+  }, [page]);
 
   const handler = () => {
     setPage(!page);
   };
 
   // only load 5 at a time to save on performance
-  const loadMore = () => {
-    setTake((prevTake) => prevTake + 5);
-    setSkip((prevSkip) => prevSkip);
-    console.log('Load more' + ' take ' + take + ' skip ' + skip);
-  };
 
   function getColorByType(type: string) {
     switch (type) {
@@ -202,14 +195,6 @@ export default function Main() {
           className='mx-auto'
         />
       </button>
-      <div className='flex w-full flex-row items-center justify-center'>
-        <button
-          className='w-1/2 flex-row items-center justify-end rounded-xl bg-[#C084FC]'
-          onClick={loadMore}
-        >
-          <p className='py-2 font-title text-2xl text-black'>Load More</p>
-        </button>
-      </div>
     </div>
   ) : (
     <div className='mx-auto mt-5 size-full w-11/12 max-w-screen-md flex-col items-center justify-center rounded bg-white px-2 py-8 shadow-md'>

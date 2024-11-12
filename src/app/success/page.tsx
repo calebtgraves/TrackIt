@@ -1,22 +1,25 @@
 'use client';
 import Image from 'next/image';
-import { useEffect } from 'react';
+import { useEffect, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
-export default function SuccessPage() {
+
+function SuccessContent() {
   const searchParams = useSearchParams();
   const count = searchParams.get('count');
-  // redirect to dashboard after 5 seconds
+
+  // Redirect to dashboard after 5 seconds
   useEffect(() => {
     const timer = setTimeout(() => {
       window.location.href = '/';
     }, 5000);
     return () => clearTimeout(timer);
   }, []);
+
   return (
     <div className='grid h-full min-h-screen grid-rows-4'>
       <div className='row-span-1 flex h-full flex-col items-center justify-center rounded-b-xl border-b-4 border-b-green-900 bg-green-500'>
         <h1 className='pb-4 text-6xl'>Congratulations,</h1>
-        <h2 className='text-3xl'> You Tracked It! </h2>
+        <h2 className='text-3xl'>You Tracked It!</h2>
       </div>
 
       <div className='row-span-3 my-auto flex h-full flex-col items-center bg-white pt-10'>
@@ -40,5 +43,13 @@ export default function SuccessPage() {
         </h4>
       </div>
     </div>
+  );
+}
+
+export default function SuccessPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SuccessContent />
+    </Suspense>
   );
 }
