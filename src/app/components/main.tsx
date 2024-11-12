@@ -6,6 +6,9 @@ import { Streak } from '@/lib/types';
 import Image from 'next/image';
 import UpdateTime from './main/updateTimeForm';
 import Link from 'next/link';
+import UpdateCount from './main/updateCountForm';
+import UpdateQuantity from './main/updateQuantityForm';
+import UpdateCheck from './main/updateCheckForm';
 
 export default function Main() {
   const [page, setPage] = useState<boolean>(true);
@@ -23,9 +26,9 @@ export default function Main() {
   );
 
   const handleFormSubmit = () => {
-    if (formRef.current) {
-      formRef.current.submit(); // Programmatically submit the form
-    }
+    formRef.current?.dispatchEvent(
+      new Event('submit', { bubbles: true, cancelable: true }),
+    );
   };
 
   const toggleExpand = (streakId: string) => {
@@ -53,6 +56,8 @@ export default function Main() {
   const handler = () => {
     setPage(!page);
   };
+
+  // only load 5 at a time to save on performance
 
   function getColorByType(type: string) {
     switch (type) {
@@ -210,13 +215,14 @@ export default function Main() {
               </div>
             </div>
             {expandedStreakId === streak.id && (
-              <div className='mt-2 rounded-lg p-4 text-black shadow'>
-                <div className='flex flex-col items-center justify-center'>
+              <div className='relative mt-2 rounded-lg p-4 text-black shadow'>
+                <div className='relative flex flex-col items-center justify-center'>
                   <h2 className='text-center text-2xl font-semibold'>Goal:</h2>
                   <p className='my-4'>{streak.goal}</p>
                   {/*This is the streak type and the form to update it*/}
                   {streak.type === 'time' && (
                     <UpdateTime
+                      streakCount={streak.streakCount}
                       streakId={streak.id}
                       totalTime={streak.totalTime}
                       reportType={streak.reportType}
@@ -225,9 +231,34 @@ export default function Main() {
                       formRef={formRef} // Pass the form ref down to UpdateTime
                     />
                   )}
-                  {streak.type === 'count' && <h4>Total</h4>}
-                  {streak.type === 'quantity' && <h4>Total</h4>}
-                  {streak.type === 'check' && <h4>checkbox</h4>}
+                  {streak.type === 'count' && (
+                    <UpdateCount
+                      streakCount={streak.streakCount}
+                      streakId={streak.id}
+                      totalCount={streak.totalCount}
+                      unit={streak.unit}
+                      lastChecked={streak.lastChecked}
+                      formRef={formRef}
+                    />
+                  )}
+                  {streak.type === 'quantity' && (
+                    <UpdateQuantity
+                      streakCount={streak.streakCount}
+                      streakId={streak.id}
+                      totalQuantity={streak.totalQuantity}
+                      unit={streak.unit}
+                      lastChecked={streak.lastChecked}
+                      formRef={formRef}
+                    />
+                  )}
+                  {streak.type === 'check' && (
+                    <UpdateCheck
+                      streakCount={streak.streakCount}
+                      streakId={streak.id}
+                      lastChecked={streak.lastChecked}
+                      formRef={formRef}
+                    />
+                  )}
                   <div className='mt-2 flex flex-row items-center justify-center gap-4'>
                     <button onClick={handleFormSubmit}>
                       <Image
