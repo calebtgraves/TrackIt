@@ -73,6 +73,7 @@ const LoginPage = () => {
             <button
               type='button'
               className='mt-2 w-full rounded bg-purple-200 py-2 text-purple-700 transition duration-200 hover:bg-purple-300'
+              onClick={() => router.push('/signup')}
             >
               Create an Account
             </button>

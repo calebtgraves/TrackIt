@@ -1,10 +1,17 @@
 'use client';
 import createCheck from '@/actions/check';
 import CreateBanner from '@/app/components/dashboard/CreateBanner';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 export default function CreateCheckPage() {
   const router = useRouter();
-  const userId = '1';
+  const { data: session } = useSession();
+
+  if (!session) {
+    router.push('/login');
+  }
+  const userId = session?.user?.id;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

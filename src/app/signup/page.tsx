@@ -1,4 +1,5 @@
 'use client';
+import { createUser } from '@/actions/users';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -10,6 +11,19 @@ const SignupPage = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const router = useRouter();
 
+  const handleRegister = async (event: React.FormEvent) => {
+    event.preventDefault();
+    // verify that passwords match
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+    // create user
+    await createUser(email, firstName, lastName, password);
+
+    setTimeout(() => router.push('/login'), 3000);
+  };
+
   return (
     <div className='flex min-h-screen flex-col'>
       <div className='rounded-b-xl border-b-4 border-b-purple-950 bg-purple-900 py-10 text-center font-title text-5xl text-white'>
@@ -17,15 +31,7 @@ const SignupPage = () => {
       </div>
       <div className='flex flex-1 items-center justify-center'>
         <form
-          onSubmit={async (e) => {
-            e.preventDefault();
-            if (password !== confirmPassword) {
-              alert('Passwords do not match');
-              return;
-            }
-            // await signUp({ firstName, lastName, email, password });
-            router.push('/');
-          }}
+          onSubmit={handleRegister}
           className='m-5 w-full max-w-sm rounded bg-white p-8 shadow-md'
         >
           <div className='mb-4'>

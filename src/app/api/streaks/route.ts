@@ -1,9 +1,13 @@
 'use server';
 import { NextResponse } from 'next/server';
 import prisma from '@/lib/db';
+import { auth } from '@/auth';
+
 export async function GET() {
   try {
-    const userId = '1'; // Assuming userId is static for now
+    const session = await auth();
+    const userId = session?.user?.id;
+
     if (!userId) {
       return NextResponse.json({ error: 'User not found' });
     }

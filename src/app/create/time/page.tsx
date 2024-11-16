@@ -3,10 +3,17 @@ import CreateBanner from '@/app/components/dashboard/CreateBanner';
 import createTime from '@/actions/time';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 export default function CreateTimePage() {
-  const userId = '1';
   const router = useRouter();
+  const { data: session } = useSession();
+
+  if (!session) {
+    router.push('/login');
+  }
+  const userId = session?.user?.id;
+
   const [reportType, setReportType] = useState('');
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
