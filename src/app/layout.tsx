@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { Gasoek_One, Poltawski_Nowy } from 'next/font/google';
+import { SessionProvider } from 'next-auth/react';
 
 const title = Gasoek_One({
   subsets: ['latin'],
@@ -30,7 +31,7 @@ export default function RootLayout({
       <body
         className={` ${title.variable} ${text.variable} ${background} min-h-screen text-white`}
       >
-        {children}
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
   );
