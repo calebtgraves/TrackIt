@@ -9,6 +9,20 @@ import Link from 'next/link';
 import UpdateCount from './main/updateCountForm';
 import UpdateQuantity from './main/updateQuantityForm';
 import UpdateCheck from './main/updateCheckForm';
+import { useRouter } from 'next/navigation';
+
+export function getColorByType(type: string) {
+  switch (type) {
+    case 'count':
+      return 'bg-[#3B82F6]';
+    case 'time':
+      return 'bg-[#C084FC]';
+    case 'quantity':
+      return 'bg-[#EF4444]';
+    default:
+      return 'bg-[#22C55E]';
+  }
+}
 
 export default function Main() {
   const [page, setPage] = useState<boolean>(true);
@@ -16,10 +30,12 @@ export default function Main() {
   const formRef = useRef<HTMLFormElement | null>(null);
   const [expandedStreakId, setExpandedStreakId] = useState<string | null>(null);
 
+  const router = useRouter();
+
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [filters, setFilters] = useState<string[]>([]);
 
-  const filteredStreaks = streaks.filter(
+  const filteredStreaks = streaks?.filter(
     (streak) =>
       streak.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
       (filters.length === 0 || filters.includes(streak.type)),
@@ -44,7 +60,6 @@ export default function Main() {
       try {
         const response = await fetch(`/api/streaks`);
         const data = await response.json();
-        console.log(data);
         setStreaks(data);
       } catch (error) {
         console.log('Error fetching data:', error);
@@ -56,21 +71,6 @@ export default function Main() {
   const handler = () => {
     setPage(!page);
   };
-
-  // only load 5 at a time to save on performance
-
-  function getColorByType(type: string) {
-    switch (type) {
-      case 'count':
-        return 'bg-[#3B82F6]';
-      case 'time':
-        return 'bg-[#C084FC]';
-      case 'quantity':
-        return 'bg-[#EF4444]';
-      default:
-        return 'bg-[#22C55E]';
-    }
-  }
 
   function toggleFilter(filter: string) {
     if (filters.includes(filter)) {
@@ -269,7 +269,11 @@ export default function Main() {
                         className='mx-auto'
                       />
                     </button>
-                    <button>
+                    <button
+                      onClick={() => {
+                        router.push(`/edit/${streak.id}`);
+                      }}
+                    >
                       <Image
                         src={'/edit.svg'}
                         alt={'edit'}
