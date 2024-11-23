@@ -1,21 +1,16 @@
 'use server';
 import { NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-import { PrismaNeon } from '@prisma/adapter-neon';
-import { Pool } from '@neondatabase/serverless';
+import prisma from '@/lib/db';
+import { auth } from '@/auth';
 // we might not need this endpoint.
 // this endpoint is used to get all the user information by id.
 export async function GET() {
-  const neon = new Pool({
-    connectionString: process.env.POSTGRES_PRISMA_URL,
-  });
-  const adapter = new PrismaNeon(neon);
-  const prisma = new PrismaClient({ adapter });
-  const id = '1';
+  const session = await auth();
+  const userId = session?.user?.id;
   // dont include the password in the response
   const users = await prisma.users.findMany({
     where: {
-      id: id,
+      id: userId,
     },
     select: {
       name: true,

@@ -1,11 +1,18 @@
 'use client';
 import createQuantity from '@/actions/quanity';
 import CreateBanner from '@/app/components/dashboard/CreateBanner';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export default function CreateQuantityPage() {
-  const userId = '1';
   const router = useRouter();
+  const { data: session } = useSession();
+
+  if (!session) {
+    router.push('/login');
+  }
+  const userId = session?.user?.id;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

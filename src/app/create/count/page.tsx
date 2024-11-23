@@ -1,11 +1,18 @@
 'use client';
 import createCount from '@/actions/count';
 import CreateBanner from '@/app/components/dashboard/CreateBanner';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 export default function CreateCountPage() {
   const router = useRouter();
-  const userId = '1';
+  const { data: session } = useSession();
+
+  if (!session) {
+    router.push('/login');
+  }
+  const userId = session?.user?.id;
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);

@@ -1,5 +1,7 @@
 'use client';
+import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 //we need this for the component to get streak data then a redirect
 // type Props = {
@@ -7,6 +9,13 @@ import { useEffect } from 'react';
 // };
 
 export default function SuccessPage() {
+  const router = useRouter();
+  const { data: session } = useSession();
+
+  if (!session) {
+    router.push('/login');
+  }
+
   const count = 0;
   // redirect to dashboard after 5 seconds
   useEffect(() => {

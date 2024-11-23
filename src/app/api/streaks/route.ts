@@ -1,18 +1,13 @@
 'use server';
 import { NextResponse } from 'next/server';
-import { PrismaNeon } from '@prisma/adapter-neon';
-import { Pool } from '@neondatabase/serverless';
-import { PrismaClient } from '@prisma/client';
+import prisma from '@/lib/db';
+import { auth } from '@/auth';
 
 export async function GET() {
   try {
-    const neon = new Pool({
-      connectionString: process.env.POSTGRES_PRISMA_URL,
-    });
-    const adapter = new PrismaNeon(neon);
-    const prisma = new PrismaClient({ adapter });
+    const session = await auth();
+    const userId = session?.user?.id;
 
-    const userId = '1'; // Assuming userId is static for now
     if (!userId) {
       return NextResponse.json({ error: 'User not found' });
     }
