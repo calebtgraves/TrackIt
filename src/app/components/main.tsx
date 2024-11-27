@@ -98,7 +98,7 @@ export default function Main() {
       {page === true && (
         <div className='relative mx-auto grid size-full w-full grid-rows-10 px-4 sm:w-full sm:px-4 md:w-3/4 md:px-6 lg:w-1/2 lg:px-8'>
           {/* Banner */}
-          <div className='row-span-4 w-full'>
+          <div className='row-span-4 w-full pb-5'>
             <Banner />
             <div className='mx-auto w-full'>
               <input
@@ -189,12 +189,12 @@ export default function Main() {
           <div
             ref={scrollableDivRef}
             onScroll={handleScroll}
-            className='no-scrollbar row-span-6 mx-auto size-full overflow-hidden overflow-y-scroll'
+            className='no-scrollbar row-span-6 mx-auto size-full overflow-hidden overflow-y-scroll rounded-xl bg-gradient-to-b from-purple-900 via-purple-700 to-purple-900 p-2'
           >
             {filteredStreaks.map((streak: Streak) => (
               <div
                 key={streak.id}
-                className='mb-5 flex w-full flex-col items-center justify-center'
+                className='mx-auto mb-5 flex w-full flex-col items-center justify-center sm:w-full md:w-5/6'
               >
                 <div className='mx-auto w-full flex-col items-center justify-center rounded-xl bg-white'>
                   {/*This is the image that shows the streak type*/}
@@ -238,11 +238,11 @@ export default function Main() {
                   </div>
                   {expandedStreakId === streak.id && (
                     <div className='relative mt-2 rounded-lg p-4 text-black shadow'>
-                      <div className='relative flex flex-col items-center justify-center'>
-                        <h2 className='text-center text-2xl font-semibold'>
+                      <div className='relative flex w-full flex-col items-center justify-center'>
+                        <h2 className='text-center font-title text-2xl'>
                           Goal:
                         </h2>
-                        <p className='my-4'>{streak.goal}</p>
+                        <p className='my-2 text-center'>{streak.goal}</p>
                         {/*This is the streak type and the form to update it*/}
                         {streak.type === 'time' && (
                           <UpdateTime
