@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { getUser, updateUser } from '@/actions/users';
+import { getUser, updateUser, updateUserPassword } from '@/actions/users';
 import { Users } from '@prisma/client';
 
 export default function Settings() {
@@ -12,6 +12,8 @@ export default function Settings() {
   const [editMode, setEditMode] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   useEffect(() => {
     async function fetchUser() {
@@ -24,6 +26,19 @@ export default function Settings() {
     }
     fetchUser();
   }, [userId]);
+
+  async function handleChangePassword(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (newPassword !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+    if (user?.id) {
+      updateUserPassword(user.id, newPassword);
+    }
+    setEditMode(false);
+  }
+
   if (!user) return null;
   return (
     <>
@@ -55,7 +70,7 @@ export default function Settings() {
           {editMode ? 'Save' : 'Edit'}
         </button>
       </div>
-      <div className='flex flex-1 items-center justify-center p-4'>
+      <div className='flex flex-1 flex-col items-center justify-center p-4'>
         <form className='space-y-4'>
           {editMode ? (
             <>
@@ -101,6 +116,46 @@ export default function Settings() {
             </>
           )}
         </form>
+        {editMode && (
+          <form className='mt-5 space-y-4' onSubmit={handleChangePassword}>
+            <h3 className='text-center text-2xl'>Change Password</h3>
+            <div>
+              <label
+                className='block text-center text-black'
+                htmlFor='newPassword'
+              >
+                New Password
+              </label>
+              <input
+                id='newPassword'
+                className='w-full rounded border px-3 py-2 text-black'
+                type='password'
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+            </div>
+            <div>
+              <label
+                className='block text-center text-black'
+                htmlFor='confirmPassword'
+              >
+                Confirm New Password
+              </label>
+              <input
+                id='confirmPassword'
+                className='w-full rounded border px-3 py-2 text-black'
+                type='password'
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
+            <div className='flex justify-center'>
+              <button className='rounded bg-purple-900 p-2 text-white'>
+                Save Password
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </>
   );

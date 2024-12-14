@@ -37,6 +37,21 @@ export async function updateUser(id: string, email: string, name: string) {
   }
 }
 
+export async function updateUserPassword(id: string, password: string) {
+  try {
+    await prisma.users.update({
+      where: {
+        id: id,
+      },
+      data: {
+        password: password,
+      },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function getUser(id: string) {
   try {
     const user = await prisma.users.findUnique({
