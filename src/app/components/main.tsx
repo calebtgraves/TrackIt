@@ -306,6 +306,19 @@ export default function Main() {
                               className='mx-auto'
                             />
                           </button>
+                          <button
+                            onClick={() => {
+                              router.push(`/streak/${streak.id}`);
+                            }}
+                          >
+                            <Image
+                              src={'/shareIt.svg'}
+                              alt={'shareIt'}
+                              width={50}
+                              height={50}
+                              className='mx-auto'
+                            />
+                          </button>
                         </div>
                       </div>
                     </div>
