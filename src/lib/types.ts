@@ -14,3 +14,8 @@ export type Streak = {
   isComplete: boolean;
   streak: number;
 };
+
+export type Users = {
+  id: string;
+  name: string;
+};
