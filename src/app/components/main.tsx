@@ -286,7 +286,7 @@ export default function Main() {
                         <div className='mt-2 flex flex-row items-center justify-center gap-4'>
                           <button onClick={handleFormSubmit}>
                             <Image
-                              src={'/trackit.svg'}
+                              src={'/trackIt.svg'}
                               alt={'trackit'}
                               width={165}
                               height={165}
